@@ -5,6 +5,7 @@ const JWT_SECRET = ''
 //Link for connecting to the database (use environmental variable)
 const MONGODB_URI = ''
 const jwt = require('jsonwebtoken')
+const User = require('./models/user')
 
 console.log('connecting to', MONGODB_URI)
 
@@ -18,12 +19,61 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
 
 //Defines GraphQL datatypes (Users, FishingTrip etc.)
 const typeDefs = gql`
-  
+  type User {
+    username: String!
+    favoriteGenre: String!
+    id: ID!
+  }
+  type Token {
+    value: String!
+  }
+  type Query {
+      me: User
+  }
+  type Mutation {
+    createUser(
+      username: String!
+    ): User
+    login(
+      username: String!
+      password: String!
+    ): Token
+  } 
 `
 
 //Defines Query/Mutation functions(getData, addFishingTrip etc.)
 const resolvers = {
-    
+  Query: {
+    me: (root, args, context) => {
+      return context.currentUser
+    }
+  },
+  Mutation: {
+    createUser: (root, args) => {
+      const user = new User({ username: args.username })
+
+      return user.save()
+        .catch(error => {
+          throw new UserInputError(error.message, {
+            invalidArgs: args,
+          })
+        })
+    },
+    login: async (root, args) => {
+      const user = await User.findOne({ username: args.username })
+  
+      if ( !user || args.password !== 'secret' ) {
+        throw new UserInputError("wrong credentials")
+      }
+  
+      const userForToken = {
+        username: user.username,
+        id: user._id,
+      }
+  
+      return { value: jwt.sign(userForToken, JWT_SECRET) }
+    }
+  } 
 }
 
 //Apollo server stuff
