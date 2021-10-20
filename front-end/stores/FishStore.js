@@ -27,7 +27,8 @@ export class FishStore {
                     length: 40,
                 }
             ],
-            other_info: 'Syöttinä käytety maan matosia',
+            otherInfo: 'Syöttinä käytety maan matosia',
+            image: null,
         },
     ];
 
