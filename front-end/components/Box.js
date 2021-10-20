@@ -16,7 +16,7 @@ export default function Box({children}) {
 
 const styles = StyleSheet.create({
     container: {
-        marginHorizontal: 15,
+        marginHorizontal: 20,
         marginVertical: 20,
     },
     shadow: {

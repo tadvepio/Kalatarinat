@@ -3,6 +3,7 @@ import {StyleSheet, View, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import Box from '../components/Box';
+import ButtonWithIcon from '../components/ButtonWithIcon';
 
 export default function HomeScreen() {
     
@@ -14,11 +15,14 @@ export default function HomeScreen() {
                 <Text>tähän tulee sää widgetti</Text>
             </Box>
 
+            <ButtonWithIcon title={'Lisää uusi merkintä'} icon={'camerao'} />
+
             <Text style={styles.text}>Viimeisimmät merkinnät</Text>
 
             <Box>
                 <Text>kala</Text>
             </Box>
+
         </View>
     );
 }
@@ -29,7 +33,8 @@ const styles = StyleSheet.create({
       backgroundColor: '#ffffff',
     },
     text: {
-        marginLeft: 15,
+        marginTop: 40,
+        marginLeft: 20,
         color: '#34344A',
         fontSize: 18,
         fontWeight: 'bold',
