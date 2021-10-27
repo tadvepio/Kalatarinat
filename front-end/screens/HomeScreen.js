@@ -23,6 +23,10 @@ export default function HomeScreen() {
                 <Text>kala</Text>
             </Box>
 
+            <Box>
+                <Text>Github and Jira are now connected </Text>
+            </Box>
+
         </View>
     );
 }
