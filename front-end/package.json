@@ -8,12 +8,16 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@apollo/client": "^3.4.16",
+    "@apollo/react-hooks": "^4.0.0",
     "@react-native-async-storage/async-storage": "^1.15.9",
     "@react-navigation/native": "^6.0.4",
     "@react-navigation/stack": "^6.0.9",
+    "apollo-boost": "^0.4.9",
     "expo": "~42.0.1",
     "expo-splash-screen": "~0.11.2",
     "expo-status-bar": "~1.0.4",
+    "graphql": "^16.0.0",
     "mobx": "^6.3.3",
     "mobx-persist": "^0.4.1",
     "moment": "^2.29.1",
