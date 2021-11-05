@@ -26,7 +26,6 @@ export default function HomeScreen() {
             <ButtonWithIcon title={'Lisää uusi merkintä'} icon={'plus'} />
 
             <Text style={styles.text}>Viimeisimmät merkinnät</Text>
-            <Text style={styles.text}>Viimeisimmät merkinnät</Text>
 
             <Box>
                 <Text>kala</Text>
@@ -36,7 +35,7 @@ export default function HomeScreen() {
                 />
             </Box>
             <Box>
-                <Text>kala</Text>
+                <Text>kalaaa</Text>
             </Box>
             <Box>
                 <Text>kala</Text>
