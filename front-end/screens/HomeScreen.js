@@ -1,7 +1,8 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
+import FishStore from '../stores/FishStore';
 import Box from '../components/Box';
 import ButtonWithIcon from '../components/ButtonWithIcon';
 
@@ -9,20 +10,33 @@ export default function HomeScreen() {
     
     const navigation = useNavigation();
 
+    const mapEntries = () => {
+        let list;
+        list = FishStore.data.map((item, index) => 
+            <Box key={index}>
+                <Text>{item.ID}</Text>
+            </Box>
+        );
+
+        return (
+            <View>
+                {[list]}
+            </View>
+        );
+    };
+
     return (
         <View style={styles.container}>
-            <Box>
-                <Text>tähän tulee sää widgetti</Text>
-            </Box>
+            <ScrollView>
+                <Box>
+                    <Text>tähän tulee sää widgetti</Text>
+                </Box>
 
-            <ButtonWithIcon title={'Lisää uusi merkintä'} icon={'camerao'} />
+                <ButtonWithIcon title={'Lisää uusi merkintä'} icon={'plus'} onPress={() => navigation.navigate('CreateEntryScreen')} />
 
-            <Text style={styles.text}>Viimeisimmät merkinnät</Text>
+                <Text style={styles.text}>Viimeisimmät merkinnät</Text>
 
-            <Box>
-                <Text>kala</Text>
-            </Box>
-
+            </ScrollView>
         </View>
     );
 }

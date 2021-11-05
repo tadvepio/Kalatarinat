@@ -32,14 +32,28 @@ export class FishStore {
         },
     ];
 
-    save() {};
+    createEntry(entry) {
+        let newEntry = {
+            ID: entry.ID, 
+            date: entry.date, 
+            time: entry.time, 
+            location: entry.location, 
+            temperature: entry.temperature,
+            weather: entry.weather,
+            equipment: entry.equipment,
+            fish: entry.fish,
+            otherInfo: entry.otherInfo,
+            image: entry.image
+        };
+        this.data.push(newEntry);
+    };
       
 }
 
 decorate(FishStore, {
     data: [observable, persist('list')],
 
-    save: action,
+    createEntry: action,
 });
   
 const hydrate = create({storage: AsyncStorage});
