@@ -11,8 +11,9 @@ export default function HomeScreen() {
 
     return (
         <View style={styles.container}>
+            <Box> <Text>Moi vaan</Text> </Box>
             <Box>
-                <Text>tähän tulee sää widgetti</Text>
+                <Text>tähän tulee sää widgetti....vai tuleeko</Text>
             </Box>
 
             <ButtonWithIcon title={'Lisää uusi merkintä'} icon={'camerao'} />
