@@ -5,6 +5,8 @@ import {useNavigation} from '@react-navigation/native';
 import Box from '../components/Box';
 import ButtonWithIcon from '../components/ButtonWithIcon';
 import { TextInput } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function LoginScreen() {
     
@@ -14,14 +16,17 @@ export default function LoginScreen() {
         <View style={styles.container}>
 
             <Image
+            
             style={styles.logoStyle} 
             source={require('../assets/logo.png')}
             />
             <Text style={styles.text}>Kirjaudu sisään</Text>
             <Box style={styles.boxStyle}>
+                <MaterialIcons size={25} color='#EC0868' name="alternate-email" />
                 <TextInput
                 placeholder='Sähköposti'
                 />
+                <Ionicons size={25} color='#EC0868' name="key-outline"/>
                 <TextInput
                 placeholder='Salasana'
                 />

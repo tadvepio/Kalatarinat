@@ -20,9 +20,9 @@ export default function AppNavigator() {
             >
 
                 {/*Home*/}
-                
-                <Stack.Screen name="HomeScreen" component={HomeScreen} />
                 <Stack.Screen name="LoginScreen" component={LoginScreen} />
+                <Stack.Screen name="HomeScreen" component={HomeScreen} />
+                
 
             </Stack.Navigator>
         </NavigationContainer>

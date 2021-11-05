@@ -13,6 +13,7 @@ export default function HomeScreen() {
 
     return (
         <ScrollView>
+
             <Image
             style={styles.logoStyle} 
             source={require('../assets/logo.png')}
@@ -35,7 +36,7 @@ export default function HomeScreen() {
                 />
             </Box>
             <Box>
-                <Text>kalaaa</Text>
+                <Text>kala</Text>
             </Box>
             <Box>
                 <Text>kala</Text>
