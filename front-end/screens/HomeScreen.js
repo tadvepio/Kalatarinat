@@ -18,9 +18,11 @@ export default function HomeScreen() {
             source={require('../assets/logo.png')}
             />
         <View style={styles.container}>
+
             <Box style={styles.boxContainer}>
                 
                 <Text style={styles.text}>tähän tulee sää widgetti</Text>
+
             </Box>
 
             <ButtonWithIcon title={'Lisää uusi merkintä'} icon={'plus'} />
@@ -43,6 +45,10 @@ export default function HomeScreen() {
             <Box>
                 <Text>kala</Text>
             </Box>
+            <Box>
+                <Text>kala</Text>
+            </Box>
+
             <Box>
                 <Text>kala</Text>
             </Box>
