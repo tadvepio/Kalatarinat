@@ -12,6 +12,9 @@ export default function HomeScreen() {
     return (
         <View style={styles.container}>
             <Box>
+                <Text>kalatarinat</Text>
+            </Box>
+            <Box>
                 <Text>tähän tulee sää widgetti</Text>
             </Box>
 
@@ -24,7 +27,7 @@ export default function HomeScreen() {
             </Box>
 
             <Box>
-                <Text>Github and Jira are now connected </Text>
+                <Text>kala</Text>
             </Box>
 
         </View>
