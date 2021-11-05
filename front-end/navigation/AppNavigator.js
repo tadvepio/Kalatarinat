@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import HomeScreen from '../screens/HomeScreen';
+import CreateEntryScreen from '../screens/CreateEntryScreen';
 
 const Stack = createStackNavigator();
 
@@ -13,13 +14,13 @@ export default function AppNavigator() {
                 screenOptions={{
                     headerMode: 'screen',
                     headerTitleAlign: 'center',
-                    headerTitle: '',
-                    headerTransparent: true,
+                    headerTintColor: '#34344A'
                 }}
             >
 
                 {/*Home*/}
-                <Stack.Screen name="HomeScreen" component={HomeScreen} />
+                <Stack.Screen name='HomeScreen' options={{headerShown: false}} component={HomeScreen} />
+                <Stack.Screen name='CreateEntryScreen' options={{title: 'Uusi merkintä'}} component={CreateEntryScreen} />
 
             </Stack.Navigator>
         </NavigationContainer>
