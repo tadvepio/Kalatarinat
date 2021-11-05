@@ -32,7 +32,7 @@ export class FishStore {
         },
     ];
 
-    save() {};
+    saveEntries() {};
       
 }
 
