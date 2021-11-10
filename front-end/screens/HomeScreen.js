@@ -1,4 +1,3 @@
-
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -6,8 +5,6 @@ import {useNavigation} from '@react-navigation/native';
 import FishStore from '../stores/FishStore';
 import Box from '../components/Box';
 import ButtonWithIcon from '../components/ButtonWithIcon';
-import { ScrollView } from 'react-native-gesture-handler';
-
 
 export default function HomeScreen() {
     
