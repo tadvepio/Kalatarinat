@@ -1,5 +1,5 @@
-import React from 'react';
-import {StyleSheet, View, Text, ScrollView} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, View, Text, ScrollView, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import FishStore from '../stores/FishStore';
@@ -9,21 +9,17 @@ import ButtonWithIcon from '../components/ButtonWithIcon';
 export default function HomeScreen() {
     
     const navigation = useNavigation();
+    const [data, setData] = useState(FishStore.data);
 
-    const mapEntries = () => {
-        let list;
-        list = FishStore.data.map((item, index) => 
-            <Box key={index}>
-                <Text>{item.ID}</Text>
-            </Box>
-        );
-
-        return (
-            <View>
-                {[list]}
-            </View>
-        );
-    };
+    // Timer to refresh the screen so that the entries are visible
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setData(FishStore.data);
+        }, 0.5 * 1000);
+        return () => {
+            clearInterval(timer);
+        }
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -32,9 +28,18 @@ export default function HomeScreen() {
                     <Text>tähän tulee sää widgetti</Text>
                 </Box>
 
-                <ButtonWithIcon title={'Lisää uusi merkintä'} icon={'plus'} onPress={() => navigation.navigate('CreateEntryScreen')} />
+                <ButtonWithIcon title={'Lisää uusi merkintä'} icon={'plus'} onPress={() => navigation.navigate('CreateEntryScreen', {store: FishStore})} />
 
                 <Text style={styles.text}>Viimeisimmät merkinnät</Text>
+               
+                {/* Map the entries to the screen from the store, this current version is for testing purposes and will be changed */}
+                {data.map((object, index) => 
+                    <TouchableOpacity key={index} onPress={() => navigation.navigate('ModifyEntryScreen', {store: FishStore, object: object})}>
+                        <Box>
+                            <Text>{object.ID}</Text>
+                        </Box>
+                    </TouchableOpacity>
+                )}
 
             </ScrollView>
         </View>

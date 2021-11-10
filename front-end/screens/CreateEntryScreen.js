@@ -5,17 +5,18 @@ import moment from 'moment';
 import {AntDesign} from '@expo/vector-icons';
 import {FontAwesome5} from '@expo/vector-icons';
 
-import FishStore from '../stores/FishStore';
 import Box from '../components/Box';
 import ButtonWithIcon from '../components/ButtonWithIcon';
 import TextInputField from '../components/TextInputField';
 import DateTimeInputField from '../components/DateTimeInputField';
 
-export default function HomeScreen() {
+export default function CreateEntryScreen({route}) {
     
     const navigation = useNavigation();
+    const {store} = route.params;
 
-    const ID = useState(FishStore.data.length);
+    // Default states for all the new object's properties
+    const ID = store.data.length;
     const [date, setDate] = useState(moment());
     const [time, setTime] = useState(moment());
     const [location, setLocation] = useState('');
@@ -29,8 +30,8 @@ export default function HomeScreen() {
     const createEntryHandler = () => {
 		const entry = {
             ID: ID,
-            date: date, 
-            time: time, 
+            date: date.format(), 
+            time: time.format(), 
             location: location, 
             temperature: temperature,
             weather: weather,
@@ -39,8 +40,8 @@ export default function HomeScreen() {
             otherInfo: otherInfo,
             image: image
         };
-		FishStore.createEntry(entry);
-		navigation.goBack();
+		store.createEntry(entry);
+		navigation.navigate('HomeScreen', {store});
 	};
 
     return (
