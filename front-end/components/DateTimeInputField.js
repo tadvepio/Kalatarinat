@@ -27,7 +27,7 @@ export default function DateTimeInputField({date, setDate, mode}) {
 
 	return (
         <View>
-            {mode == 'date' ?
+            {mode === 'date' ?
                 <View style={styles.container}>
                     <TouchableOpacity style={styles.dateTimeButton} onPress={() => setDateModalVisible(true)}>
                         <FontAwesome5 name={'calendar-alt'} size={22} color={'#EC0868'}/>

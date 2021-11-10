@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import HomeScreen from '../screens/HomeScreen';
 import CreateEntryScreen from '../screens/CreateEntryScreen';
+import ModifyEntryScreen from '../screens/ModifyEntryScreen';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,7 @@ export default function AppNavigator() {
                 {/*Home*/}
                 <Stack.Screen name='HomeScreen' options={{headerShown: false}} component={HomeScreen} />
                 <Stack.Screen name='CreateEntryScreen' options={{title: 'Uusi merkintä'}} component={CreateEntryScreen} />
+                <Stack.Screen name='ModifyEntryScreen' options={{title: 'Muokkaa merkintää'}} component={ModifyEntryScreen} />
 
             </Stack.Navigator>
         </NavigationContainer>
