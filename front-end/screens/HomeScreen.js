@@ -13,13 +13,13 @@ export default function HomeScreen() {
     const navigation = useNavigation();
     const [ entries, setEntries ] = useState(['testi'])
     
-    const result1 = useQuery(ALL_ENTRIES);
+    // const result1 = useQuery(ALL_ENTRIES);
 
-    useEffect(() => {
-        if (result1.data) {
-            setEntries(result1.data.allEntries);
-        }
-    }, [result1])
+    // useEffect(() => {
+    //     if (result1.data) {
+    //         setEntries(result1.data.allEntries);
+    //     }
+    // }, [result1])
 
     console.log(entries)
 
