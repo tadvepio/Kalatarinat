@@ -1,10 +1,13 @@
+
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text, ScrollView, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import FishStore from '../stores/FishStore';
 import Box from '../components/Box';
 import ButtonWithIcon from '../components/ButtonWithIcon';
+import { ScrollView } from 'react-native-gesture-handler';
+
 
 export default function HomeScreen() {
     
@@ -21,9 +24,14 @@ export default function HomeScreen() {
         }
     }, []);
 
-    return (
+    return (            
         <View style={styles.container}>
             <ScrollView>
+                <Image
+                  style={styles.logoStyle} 
+                  source={require('../assets/logo.png')}
+                />
+                          
                 <Box>
                     <Text>tähän tulee sää widgetti</Text>
                 </Box>
@@ -40,6 +48,26 @@ export default function HomeScreen() {
                         </Box>
                     </TouchableOpacity>
                 )}
+                
+                <Box>
+                  <Text>kala</Text>
+                  <ButtonWithIcon 
+                    title={'Tarkastele'} 
+                    icon={'eyeo'} 
+                  />
+                </Box>
+                <Box>
+                    <Text>kala</Text>
+                </Box>
+                <Box>
+                    <Text>kala</Text>
+                </Box>
+                <Box>
+                    <Text>kala</Text>
+                </Box>
+                <Box>
+                    <Text>kala</Text>
+                </Box>
 
             </ScrollView>
         </View>
@@ -48,8 +76,16 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#ffffff',
+        flex: 1,
+        backgroundColor: '#ffffff',
+    },
+    logoStyle: {
+        width: 250,
+        height: 250,
+        alignSelf: 'center',
+    },
+    boxContainer: {
+        marginTop: 50,
     },
     text: {
         marginTop: 40,

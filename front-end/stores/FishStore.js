@@ -36,14 +36,13 @@ export class FishStore {
             image: entry.image
         };
         const index = this.data.findIndex(item => item.ID === entry.ID);
-		this.data.splice(index, 1, modifiedEntry);
+		    this.data.splice(index, 1, modifiedEntry);
     };
 
     deleteEntry(entry) {
         const index = this.data.findIndex(item => item.ID === entry.ID);
-		this.data.splice(index, 1);
-    };
-      
+		    this.data.splice(index, 1);
+    };      
 }
 
 decorate(FishStore, {
