@@ -4,45 +4,56 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export class FishStore {
 
-    data = [
-        {
-            ID: 0,
-            date: '12.11.2021',
-            time: '14:20',
-            location: 'Turku',
-            temperature: 10,
-            weather: 'cloudy',
-            equipment: [
-                {
-                    ID: 0,
-                    item: 'viehe',
-                    name: null,
-                }
-            ],
-            fish: [
-                {
-                    ID: 0,
-                    species: 'hauki',
-                    weight: 1.3,
-                    length: 40,
-                }
-            ],
-            otherInfo: 'Syöttinä käytety maan matosia',
-            image: null,
-        },
-    ];
+    data = [];
 
-    save() {};
-      
+    createEntry(entry) {
+        let newEntry = {
+            ID: entry.ID, 
+            date: entry.date, 
+            time: entry.time, 
+            location: entry.location, 
+            temperature: entry.temperature,
+            weather: entry.weather,
+            equipment: entry.equipment,
+            fish: entry.fish,
+            otherInfo: entry.otherInfo,
+            image: entry.image
+        };
+        this.data.push(newEntry);
+    };
+
+    modifyEntry(entry) {
+        let modifiedEntry = {
+            ID: entry.ID, 
+            date: entry.date, 
+            time: entry.time, 
+            location: entry.location, 
+            temperature: entry.temperature,
+            weather: entry.weather,
+            equipment: entry.equipment,
+            fish: entry.fish,
+            otherInfo: entry.otherInfo,
+            image: entry.image
+        };
+        const index = this.data.findIndex(item => item.ID === entry.ID);
+		this.data.splice(index, 1, modifiedEntry);
+    };
+
+    deleteEntry(entry) {
+        const index = this.data.findIndex(item => item.ID === entry.ID);
+		this.data.splice(index, 1);
+    };      
 }
 
 decorate(FishStore, {
     data: [observable, persist('list')],
 
-    save: action,
+    createEntry: action,
+    modifyEntry: action,
+    deleteEntry: action,
 });
   
 const hydrate = create({storage: AsyncStorage});
 const fishStore = new FishStore();
 export default fishStore;
-hydrate('fishnStore', fishStore);
+hydrate('fishStore', fishStore);
