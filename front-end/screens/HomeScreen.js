@@ -2,6 +2,9 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
+import { useQuery } from "@apollo/react-hooks";
+import { ALL_ENTRIES } from '../graphql/queries'
+
 import FishStore from '../stores/FishStore';
 import Box from '../components/Box';
 import ButtonWithIcon from '../components/ButtonWithIcon';
@@ -10,6 +13,17 @@ export default function HomeScreen() {
     
     const navigation = useNavigation();
     const [data, setData] = useState(FishStore.data);
+    const [ entries, setEntries ] = useState(['testi'])
+
+    const result1 = useQuery(ALL_ENTRIES);
+
+    useEffect(() => {
+        if (result1.data) {
+            setEntries(result1.data.allEntries);
+        }
+    }, [result1])
+
+    console.log(entries)
 
     // Timer to refresh the screen so that the entries are visible
     useEffect(() => {
@@ -47,7 +61,21 @@ export default function HomeScreen() {
                 )}
                 
                 <Box>
-                  <Text>kala</Text>
+                  {/* <Text>kala</Text> */}
+                  {entries.map(entry => {
+                    return (
+                        <Text key={entry.date}>
+                            Päivämäärä: {entry.date} {"\n"}
+                            Aloitusaika: {entry.startTime} {"\n"}
+                            Lopetusaika: {entry.endTime} {"\n"}
+                            {/* Välineet: {entry.equipment[0]} */}
+                            {/* Saalis: {entry.catchedFish[0]} */}
+                            Sää: {entry.weather} {"\n"}
+                            {"----------------"}
+                        </Text>
+                    )
+                    })
+                  }
                   <ButtonWithIcon 
                     title={'Tarkastele'} 
                     icon={'eyeo'} 
