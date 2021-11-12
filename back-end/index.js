@@ -1,11 +1,15 @@
+const dotenv = require('dotenv');
+dotenv.config();
 const { ApolloServer, UserInputError, AuthenticationError, gql } = require('apollo-server')
 const mongoose = require('mongoose')
 //Key for decrypting tokens (use environmental variable)
-const JWT_SECRET = ''
+const JWT_SECRET = process.env.JWT_SECRET
 //Link for connecting to the database (use environmental variable)
-const MONGODB_URI = ''
+const MONGODB_URI = process.env.MONGODB_URI
 const jwt = require('jsonwebtoken')
 const User = require('./models/user')
+const Entry = require('./models/entry')
+
 
 console.log('connecting to', MONGODB_URI)
 
@@ -27,8 +31,17 @@ const typeDefs = gql`
   type Token {
     value: String!
   }
+  type Entry {
+    date: String!
+    startTime: String!
+    endTime: String!
+    equipment: [String!]!
+    catchedFish: [String!]!
+    weather: String!
+  }
   type Query {
       me: User
+      allEntries: [Entry]!
   }
   type Mutation {
     createUser(
@@ -38,6 +51,14 @@ const typeDefs = gql`
       username: String!
       password: String!
     ): Token
+    createEntry(
+      date: String!
+      startTime: String!
+      endTime: String!
+      equipment: [String!]!
+      catchedFish: [String!]!
+      weather: String! 
+    ): Entry
   } 
 `
 
@@ -46,6 +67,9 @@ const resolvers = {
   Query: {
     me: (root, args, context) => {
       return context.currentUser
+    },
+    allEntries: (root, args) => {
+      return Entry.find({}).exec()
     }
   },
   Mutation: {
@@ -53,6 +77,23 @@ const resolvers = {
       const user = new User({ username: args.username })
 
       return user.save()
+        .catch(error => {
+          throw new UserInputError(error.message, {
+            invalidArgs: args,
+          })
+        })
+    },
+    createEntry: (root, args) => {
+      const entry = new Entry({ 
+        date: args.date,
+        startTime: args.startTime,
+        endTime: args.endTime,
+        equipment: args.equipment,
+        catchedFish: args.catchedFish,
+        weather: args.weather
+      })
+
+      return entry.save()
         .catch(error => {
           throw new UserInputError(error.message, {
             invalidArgs: args,
