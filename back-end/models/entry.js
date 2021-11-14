@@ -5,21 +5,17 @@ const entrySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  startTime: {
+  time: {
     type: String,
     required: true,
   },
-  endTime: {
+  location: {
     type: String,
-    required: true, 
+    required: true,
   },
-  equipment: {
-    type: Array,
-    required: true,   
-  },
-  catchedFish: {
-    type: Array,
-    required: true,  
+  temperature: {
+    type: String,
+    required: true,
   },
   weather: {
     type: String,
