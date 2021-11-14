@@ -33,10 +33,9 @@ const typeDefs = gql`
   }
   type Entry {
     date: String!
-    startTime: String!
-    endTime: String!
-    equipment: [String!]!
-    catchedFish: [String!]!
+    time: String!
+    location: String!
+    temperature: String!
     weather: String!
   }
   type Query {
@@ -53,10 +52,9 @@ const typeDefs = gql`
     ): Token
     createEntry(
       date: String!
-      startTime: String!
-      endTime: String!
-      equipment: [String!]!
-      catchedFish: [String!]!
+      time: String!
+      location: String!
+      temperature: String!
       weather: String! 
     ): Entry
   } 
@@ -86,10 +84,9 @@ const resolvers = {
     createEntry: (root, args) => {
       const entry = new Entry({ 
         date: args.date,
-        startTime: args.startTime,
-        endTime: args.endTime,
-        equipment: args.equipment,
-        catchedFish: args.catchedFish,
+        time: args.time,
+        location: args.location,
+        temperature: args.temperature,
         weather: args.weather
       })
 
