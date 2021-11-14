@@ -15,15 +15,17 @@ export default function HomeScreen() {
     const [data, setData] = useState(FishStore.data);
     const [ entries, setEntries ] = useState(['testi'])
 
+    //Queries entries at the start of the application 
     const result1 = useQuery(ALL_ENTRIES);
 
+    //Sets queried data to entries state
     useEffect(() => {
         if (result1.data) {
             setEntries(result1.data.allEntries);
         }
     }, [result1])
 
-    console.log(entries)
+    // console.log(entries)
 
     // Timer to refresh the screen so that the entries are visible
     useEffect(() => {
@@ -47,7 +49,7 @@ export default function HomeScreen() {
                     <Text>tähän tulee sää widgetti</Text>
                 </Box>
 
-                <ButtonWithIcon title={'Lisää uusi merkintä'} icon={'plus'} onPress={() => navigation.navigate('CreateEntryScreen', {store: FishStore})} />
+                <ButtonWithIcon title={'Lisää uusi merkintä'} icon={'plus'} onPress={() => navigation.navigate('CreateEntryScreen', {store: FishStore, setEntries: setEntries})} />
 
                 <Text style={styles.text}>Viimeisimmät merkinnät</Text>
                
@@ -62,14 +64,14 @@ export default function HomeScreen() {
                 
                 <Box>
                   {/* <Text>kala</Text> */}
+                  {/* Displays queried data */}
                   {entries.map(entry => {
                     return (
                         <Text key={entry.date}>
                             Päivämäärä: {entry.date} {"\n"}
-                            Aloitusaika: {entry.startTime} {"\n"}
-                            Lopetusaika: {entry.endTime} {"\n"}
-                            {/* Välineet: {entry.equipment[0]} */}
-                            {/* Saalis: {entry.catchedFish[0]} */}
+                            Aloitusaika: {entry.time} {"\n"}
+                            Sijainti: {entry.location} {"\n"}
+                            Lämpötila: {entry.temperature} °C {"\n"}
                             Sää: {entry.weather} {"\n"}
                             {"----------------"}
                         </Text>
