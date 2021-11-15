@@ -21,12 +21,9 @@ export default function AppNavigator() {
             >
 
                 {/*Home*/}
-                <Stack.Screen name="LoginScreen" component={LoginScreen} />
-                <Stack.Screen name="HomeScreen" component={HomeScreen} />
-                
-                <Stack.Screen name='HomeScreen' options={{headerShown: false}} component={HomeScreen} />
-                  
                 <Stack.Screen name='LoginScreen' options={{headerShown: false}} component={LoginScreen} />
+                <Stack.Screen name='HomeScreen' options={{headerShown: false}} component={HomeScreen} />
+                
                 <Stack.Screen name='CreateEntryScreen' options={{title: 'Uusi merkintä'}} component={CreateEntryScreen} />
                 <Stack.Screen name='ModifyEntryScreen' options={{title: 'Muokkaa merkintää'}} component={ModifyEntryScreen} />
 

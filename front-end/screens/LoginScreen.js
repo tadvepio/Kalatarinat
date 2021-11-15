@@ -32,7 +32,7 @@ export default function LoginScreen() {
                 />
 
             </Box>
-            <ButtonWithIcon title={'Kirjaudu sisään'} />
+            <ButtonWithIcon title={'Kirjaudu sisään'} onPress={() => navigation.navigate('HomeScreen')} />
 
             <ButtonWithIcon title={'Luo tunnukset'} />
 
