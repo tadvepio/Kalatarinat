@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, ScrollView, TouchableOpacity, TextInput} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 import {AntDesign} from '@expo/vector-icons';
 import {FontAwesome5} from '@expo/vector-icons';
+import {Picker} from '@react-native-picker/picker';
 
 import Box from '../components/Box';
 import ButtonWithIcon from '../components/ButtonWithIcon';
@@ -26,6 +27,8 @@ export default function ModifyEntryScreen({route}) {
     const [otherInfo, setOtherInfo] = useState(object.otherInfo);
     const [image, setImage] = useState(object.image);
 
+    const [iconName, setIconName] = useState('cloud');
+
     const modifyEntryHandler = () => {
 		const entry = {
             ID: ID,
@@ -47,6 +50,25 @@ export default function ModifyEntryScreen({route}) {
 		store.deleteEntry(object);
 		navigation.navigate('HomeScreen', {store, object});
 	};
+
+    // Changes the icon whenever the weather is changed
+    useEffect(() => {
+        if (weather === 'sun') {
+            setIconName('sun')
+        }
+        else if (weather === 'cloud') {
+            setIconName('cloud')
+        }
+        else if (weather === 'rain') {
+            setIconName('cloud-rain')
+        }
+        else if (weather === 'snow') {
+            setIconName('snowflake')
+        }
+        else if (weather === 'wind') {
+            setIconName('wind')
+        }
+    }, [weather]);
 
     return (
         <View style={styles.container}>
@@ -77,12 +99,22 @@ export default function ModifyEntryScreen({route}) {
                         }}        
                     />
 
-                    <TextInputField 
-                        icon={'cloud'} 
-                        textInputProps={{
-                            placeholder: 'Sää',
-                        }}        
-                    />
+                    <View style={styles.pickerContainer}>
+                        <FontAwesome5 name={iconName} size={22} color={'#EC0868'} />
+                        <Picker
+                            selectedValue={weather}
+                            onValueChange={itemValue => setWeather(itemValue)}
+                            mode={'dropdown'}
+                            style={{width: '90%'}}
+                        >
+                            <Picker.Item label='Sää' value='placeholder' enabled={false} style={{color: 'silver'}} />
+                            <Picker.Item label='Aurinkoista' value='sun' style={{color: '#34344A', fontSize: 14}} />
+                            <Picker.Item label='Pilvistä' value='cloud' style={{color: '#34344A', fontSize: 14}} />
+                            <Picker.Item label='Vesisadetta' value='rain' style={{color: '#34344A', fontSize: 14}} />
+                            <Picker.Item label='Lumisadetta' value='snow' style={{color: '#34344A', fontSize: 14}} />
+                            <Picker.Item label='Tuulista' value='wind' style={{color: '#34344A', fontSize: 14}} />
+                        </Picker>
+                    </View>
                 </Box>
 
                 <Text style={styles.text}>Välineet</Text>
@@ -145,6 +177,17 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#ffffff',
+    },
+    pickerContainer: {
+        flexDirection: 'row',
+        width: '100%',
+        height: 40,
+        alignItems: 'center',
+        marginBottom: 15,
+        paddingLeft: 10,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: '#EC0868',
     },
     text: {
         marginTop: 10,
