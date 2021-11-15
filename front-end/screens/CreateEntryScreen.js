@@ -5,6 +5,11 @@ import moment from 'moment';
 import {AntDesign} from '@expo/vector-icons';
 import {FontAwesome5} from '@expo/vector-icons';
 
+//Query and Mutation
+import { CREATE_ENTRY } from '../graphql/mutations';
+import { ALL_ENTRIES } from '../graphql/queries'
+import { useMutation } from '@apollo/client'
+
 import Box from '../components/Box';
 import ButtonWithIcon from '../components/ButtonWithIcon';
 import TextInputField from '../components/TextInputField';
@@ -14,6 +19,11 @@ export default function CreateEntryScreen({route}) {
     
     const navigation = useNavigation();
     const {store} = route.params;
+
+    //After new entry is saved to DB, update HomeScreen entrylist
+    const [ createEntry ] = useMutation(CREATE_ENTRY, {
+        refetchQueries: [ { query: ALL_ENTRIES } ]  
+    })
 
     // Default states for all the new object's properties
     const ID = store.data.length;
@@ -43,6 +53,19 @@ export default function CreateEntryScreen({route}) {
 		store.createEntry(entry);
 		navigation.navigate('HomeScreen', {store});
 	};
+
+    //Saves entry to DB and runs createEntryHandler
+    const saveEntryHandler = () => {
+        createEntry({ variables: { 
+            date, 
+            time,
+            location, 
+            temperature, 
+            weather, 
+            } 
+        });
+        createEntryHandler();
+    };
 
     return (
         <View style={styles.container}>
@@ -77,6 +100,7 @@ export default function CreateEntryScreen({route}) {
                         icon={'cloud'} 
                         textInputProps={{
                             placeholder: 'Sää',
+                            onChangeText: setWeather,
                         }}        
                     />
                 </Box>
@@ -109,7 +133,7 @@ export default function CreateEntryScreen({route}) {
 
                 <ButtonWithIcon title={'Lisää kuva'} icon={'camerao'} />
 
-                <ButtonWithIcon title={'Tallenna'} icon={'check'} onPress={() => createEntryHandler()} />
+                <ButtonWithIcon title={'Tallenna'} icon={'check'} onPress={() => saveEntryHandler()} />
 
                 <ButtonWithIcon title={'Peruuta'} onPress={() => navigation.goBack()} />
 
