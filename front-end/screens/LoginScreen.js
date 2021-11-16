@@ -22,14 +22,19 @@ export default function LoginScreen() {
             />
             <Text style={styles.text}>Kirjaudu sisään</Text>
             <Box style={styles.boxStyle}>
+                <View style={styles.input}>
                 <MaterialIcons size={25} color='#EC0868' name="alternate-email" />
                 <TextInput
                 placeholder='Sähköposti'
                 />
-                <Ionicons size={25} color='#EC0868' name="key-outline"/>
+                </View>
+                <View style={styles.input}>
+                <Ionicons size={25} padding={15} color='#EC0868' name="key-outline"/>
                 <TextInput
+                secureTextEntry={true}
                 placeholder='Salasana'
                 />
+                </View>
 
             </Box>
             <ButtonWithIcon title={'Kirjaudu sisään'} onPress={() => navigation.navigate('HomeScreen')} />
@@ -45,7 +50,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#ffffff',
         padding: 10,
-        margin: 15,
     },
     logoStyle: {
         width: 250,
@@ -65,6 +69,19 @@ const styles = StyleSheet.create({
         margin: 15,
         justifyContent: 'center',
         alignSelf: 'center',
-        
     },
-});
+    input: {
+        flexDirection: 'row',
+        width: '100%',
+        height: 40,
+        alignItems: 'center',
+        alignSelf: 'center',
+        borderRadius: 10,
+        borderWidth: 1,
+        margin: 10,
+        padding: 10,
+        borderColor: '#EC0868',
+        
+    }     
+    },
+);

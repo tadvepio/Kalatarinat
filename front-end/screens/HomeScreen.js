@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {FontAwesome5} from '@expo/vector-icons';
 
 import { useQuery } from "@apollo/react-hooks";
 import { ALL_ENTRIES } from '../graphql/queries'
@@ -97,6 +98,20 @@ export default function HomeScreen() {
                 </Box>
 
             </ScrollView>
+
+            <View style={styles.navigationContainer}>
+                <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('HomeScreen')}>
+                    <FontAwesome5 name={'home'} size={25} color={'#ffffff'} />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.navigationButton}>
+                    <FontAwesome5 name={'fish'} size={25} color={'#ffffff'} />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.navigationButton}>
+                    <FontAwesome5 name={'user'} size={25} color={'#ffffff'} />
+                </TouchableOpacity>
+            </View>
         </View>
     );
 }
@@ -121,4 +136,15 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
     },
+    navigationContainer: {
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        height: 60, width: '100%',
+    },
+    navigationButton: {
+        backgroundColor: '#EC0868', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        width: '33%',
+    }
 });
