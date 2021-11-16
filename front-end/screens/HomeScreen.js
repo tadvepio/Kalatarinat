@@ -19,9 +19,57 @@ export default function HomeScreen() {
 
             <Text style={styles.text}>Viimeisimmät merkinnät</Text>
 
+<<<<<<< Updated upstream
             <Box>
                 <Text>kala</Text>
             </Box>
+=======
+                <Text style={styles.text}>Viimeisimmät merkinnät</Text>
+               
+                {/* Map the entries to the screen from the store, this current version is for testing purposes and will be changed */}
+                {data.map((object, index) => 
+                    <TouchableOpacity key={index} onPress={() => navigation.navigate('ModifyEntryScreen', {store: FishStore, object: object})}>
+                        <Box>
+                            <Text>{object.ID}</Text>
+                        </Box>
+                    </TouchableOpacity>
+                )}
+                
+                <Box>
+                  {/* <Text>kala</Text> */}
+                  {/* Displays queried data */}
+                  {entries.map(entry => {
+                    return (
+                        <Box>
+                        <Text key={entry.date}>
+                            Päivämäärä: {entry.date} {"\n"}
+                            Aloitusaika: {entry.time} {"\n"}
+                            Sijainti: {entry.location} {"\n"}
+                            Lämpötila: {entry.temperature} °C {"\n"}
+                            Sää: {entry.weather} {"\n"}
+                        </Text>
+                        </Box>
+                    )
+                    })
+                  }
+                  <ButtonWithIcon 
+                    title={'Tarkastele'} 
+                    icon={'eyeo'} 
+                  />
+                </Box>
+                <Box>
+                    <Text>kala</Text>
+                </Box>
+                <Box>
+                    <Text>kala</Text>
+                </Box>
+                <Box>
+                    <Text>kala</Text>
+                </Box>
+                <Box>
+                    <Text>kala</Text>
+                </Box>
+>>>>>>> Stashed changes
 
         </View>
     );
