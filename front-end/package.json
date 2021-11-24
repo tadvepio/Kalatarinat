@@ -24,6 +24,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-modal-datetime-picker": "^13.0.0",
+    "react-native-paper": "^4.10.0",
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
