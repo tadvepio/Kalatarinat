@@ -10,6 +10,8 @@ import Box from '../components/Box';
 import ButtonWithIcon from '../components/ButtonWithIcon';
 import TextInputField from '../components/TextInputField';
 import DateTimeInputField from '../components/DateTimeInputField';
+import EquipmentModal from '../components/EquipmentModal';
+import FishModal from '../components/FishModal';
 
 export default function ModifyEntryScreen({route}) {
     
@@ -20,7 +22,7 @@ export default function ModifyEntryScreen({route}) {
     const [date, setDate] = useState(moment(object.date));
     const [time, setTime] = useState(moment(object.time));
     const [location, setLocation] = useState(object.location);
-    const [temperature, setTeperature] = useState(object.temperature);
+    const [temperature, setTemperature] = useState(object.temperature);
     const [weather, setWeather] = useState(object.weather);
     const [equipment, setEquipment] = useState(object.equipment);
     const [fish, setFish] = useState(object.fish);
@@ -28,6 +30,9 @@ export default function ModifyEntryScreen({route}) {
     const [image, setImage] = useState(object.image);
 
     const [iconName, setIconName] = useState('cloud');
+
+    const [isEquipmentModalVisible, setEquipmentModalVisibility] = useState(false);
+    const [isFishModalVisible, setFishModalVisibility] = useState(false);
 
     const modifyEntryHandler = () => {
 		const entry = {
@@ -50,6 +55,14 @@ export default function ModifyEntryScreen({route}) {
 		store.deleteEntry(object);
 		navigation.navigate('HomeScreen', {store, object});
 	};
+
+    const deleteEquipment = (e) => {
+        setEquipment(equipment.filter(item => JSON.stringify(item) !== JSON.stringify(e)));
+    };
+
+    const deleteFish = (f) => {
+        setFish(fish.filter(item => JSON.stringify(item) !== JSON.stringify(f)));
+    };
 
     // Changes the icon whenever the weather is changed
     useEffect(() => {
@@ -95,7 +108,7 @@ export default function ModifyEntryScreen({route}) {
                             maxLength: 2,
                             keyboardType: 'numeric',
                             value: temperature,
-                            onChangeText: setTeperature,
+                            onChangeText: setTemperature,
                         }}        
                     />
 
@@ -105,6 +118,7 @@ export default function ModifyEntryScreen({route}) {
                             selectedValue={weather}
                             onValueChange={itemValue => setWeather(itemValue)}
                             mode={'dropdown'}
+                            dropdownIconColor={'#EC0868'}
                             style={{width: '90%'}}
                         >
                             <Picker.Item label='Sää' value='placeholder' enabled={false} style={{color: 'silver'}} />
@@ -119,14 +133,35 @@ export default function ModifyEntryScreen({route}) {
 
                 <Text style={styles.text}>Välineet</Text>
                 <Box>
-                    <TouchableOpacity style={styles.roundButton}>
+                    {equipment.map((item, index) => 
+                        <View key={index} style={styles.equipmentItem}>
+                            <Text style={{fontSize: 14, color: '#34344A'}}>{item.modelName !== '' ? item.modelName : item.type}</Text>
+                            <TouchableOpacity style={styles.deleteButton} onPress={() => deleteEquipment(item)}>
+                                <AntDesign name={'delete'} size={20} color={'#ffffff'} style={{padding: 5}} />
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                    <TouchableOpacity style={styles.roundButton} onPress={() => setEquipmentModalVisibility(true)}>
                         <AntDesign name={'plus'} size={25} color={'#ffffff'} style={{padding: 10}} />
                     </TouchableOpacity>
                 </Box>
 
                 <Text style={styles.text}>Kalat</Text>
                 <Box>
-                    <TouchableOpacity style={styles.roundButton}>
+                    {fish.map((item, index) => 
+                        <View key={index} style={styles.fishItem}>
+                            <FontAwesome5 name={'fish'} size={22} color={'#EC0868'} />
+                            <View style={{marginLeft: 10}}>
+                                <Text style={{fontSize: 14, color: '#34344A'}}>{item.fishName}</Text>
+                                <Text style={{fontSize: 14, color: '#34344A'}}>{item.weight !== '' ? item.weight + 'kg' : ''}  {item.length !== '' ? item.length + 'cm' : ''}</Text>
+                            </View>
+                            
+                            <TouchableOpacity style={{...styles.deleteButton, marginLeft: 'auto' }} onPress={() => deleteFish(item)}>
+                                <AntDesign name={'delete'} size={20} color={'#ffffff'} style={{padding: 5}} />
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                    <TouchableOpacity style={styles.roundButton} onPress={() => setFishModalVisibility(true)}>
                         <AntDesign name={'plus'} size={25} color={'#ffffff'} style={{padding: 10}} />
                     </TouchableOpacity>
                 </Box>
@@ -169,6 +204,9 @@ export default function ModifyEntryScreen({route}) {
                     <FontAwesome5 name={'user'} size={25} color={'#ffffff'} />
                 </TouchableOpacity>
             </View>
+
+            <EquipmentModal isModalVisible={isEquipmentModalVisible} closeModal={() => setEquipmentModalVisibility(false)} equipment={equipment} setEquipment={(equipment) => setEquipment(equipment)} />
+            <FishModal isModalVisible={isFishModalVisible} closeModal={() => setFishModalVisibility(false)} fish={fish} setFish={(fish) => setFish(fish)} />
         </View>
     );
 }
@@ -195,6 +233,36 @@ const styles = StyleSheet.create({
         color: '#34344A',
         fontSize: 18,
         fontWeight: 'bold',
+    },
+    equipmentItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+        height: 40,
+        alignItems: 'center',
+        marginBottom: 15,
+        paddingLeft: 10,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: '#EC0868',
+    },
+    deleteButton: {
+        alignItems: 'center', 
+        backgroundColor: '#EC0868', 
+        width: 30, 
+        borderRadius: 30,
+        marginRight: 10,
+    },
+    fishItem: {
+        flexDirection: 'row',
+        width: '100%',
+        height: 55,
+        alignItems: 'center',
+        marginBottom: 15,
+        paddingLeft: 10,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: '#EC0868',
     },
     roundButton: {
         alignSelf: 'center', 
