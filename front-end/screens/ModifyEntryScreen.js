@@ -6,6 +6,10 @@ import {AntDesign} from '@expo/vector-icons';
 import {FontAwesome5} from '@expo/vector-icons';
 import {Picker} from '@react-native-picker/picker';
 
+import { DELETE_ENTRY, MODIFY_ENTRY } from '../graphql/mutations';
+import { ALL_ENTRIES } from '../graphql/queries'
+import { useMutation } from '@apollo/client'
+
 import Box from '../components/Box';
 import ButtonWithIcon from '../components/ButtonWithIcon';
 import TextInputField from '../components/TextInputField';
@@ -34,6 +38,17 @@ export default function ModifyEntryScreen({route}) {
     const [isEquipmentModalVisible, setEquipmentModalVisibility] = useState(false);
     const [isFishModalVisible, setFishModalVisibility] = useState(false);
 
+    // After entry is deleted from DB, update HomeScreen entrylist
+    const [ deleteEntry ] = useMutation(DELETE_ENTRY, {
+        refetchQueries: [ { query: ALL_ENTRIES } ],
+    })
+
+    // After entry modified, update HomeScreen entrylist
+    const [ modifyEntry ] = useMutation(MODIFY_ENTRY, {
+        refetchQueries: [ { query: ALL_ENTRIES } ],
+    })
+
+
     const modifyEntryHandler = () => {
 		const entry = {
             ID: ID,
@@ -48,11 +63,23 @@ export default function ModifyEntryScreen({route}) {
             image: image
         };
 		store.modifyEntry(entry);
+        modifyEntry({ 
+            variables: {
+                id: ID,
+                date: date,
+                time: time,
+                location: location,
+                temperature: temperature,
+                weather: weather
+            }
+        })
 		navigation.navigate('HomeScreen', {store, object});
 	};
 
     const deleteEntryHandler = () => {
 		store.deleteEntry(object);
+        console.log(ID)
+        deleteEntry({ variables: {id: ID} })
 		navigation.navigate('HomeScreen', {store, object});
 	};
 

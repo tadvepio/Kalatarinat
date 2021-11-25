@@ -83,19 +83,6 @@ export default function HomeScreen() {
                     icon={'eyeo'} 
                   />
                 </Box>
-                <Box>
-                    <Text>kala</Text>
-                </Box>
-                <Box>
-                    <Text>kala</Text>
-                </Box>
-                <Box>
-                    <Text>kala</Text>
-                </Box>
-                <Box>
-                    <Text>kala</Text>
-                </Box>
-
             </ScrollView>
         </View>
     );

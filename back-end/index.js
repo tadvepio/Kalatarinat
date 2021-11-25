@@ -37,10 +37,11 @@ const typeDefs = gql`
     location: String!
     temperature: String!
     weather: String!
+    id: ID!
   }
   type Query {
       me: User
-      allEntries: [Entry]!
+      allEntries(date: String): [Entry]!
   }
   type Mutation {
     createUser(
@@ -57,6 +58,17 @@ const typeDefs = gql`
       temperature: String!
       weather: String! 
     ): Entry
+    deleteEntry(
+      id: ID!
+    ): Boolean!
+    modifyEntry(
+      id: ID!
+      date: String!
+      time: String!
+      location: String!
+      temperature: String!
+      weather: String!
+    ): Entry
   } 
 `
 
@@ -67,6 +79,10 @@ const resolvers = {
       return context.currentUser
     },
     allEntries: (root, args) => {
+      if (args.date) {
+        console.log(args.date)
+        return Entry.find({ date: args.date }).exec()
+      }
       return Entry.find({}).exec()
     }
   },
@@ -110,6 +126,22 @@ const resolvers = {
       }
   
       return { value: jwt.sign(userForToken, JWT_SECRET) }
+    },
+    deleteEntry: async (root, args) => {
+      console.log(args.id)
+      await Entry.findByIdAndRemove(args.id);
+      return true
+    },
+    modifyEntry: async (root, args) => {
+      console.log(args.id)
+      await Entry.findByIdAndUpdate(args.id, { 
+        date: args.date,
+        time: args.time,
+        location: args.location,
+        temperature: args.temperature,
+        weather: args.weather 
+      })
+      return { id: args.id }
     }
   } 
 }

@@ -23,13 +23,9 @@ export default function CreateEntryScreen({route}) {
     const navigation = useNavigation();
     const {store} = route.params;
 
-    // After new entry is saved to DB, update HomeScreen entrylist
-    const [ createEntry ] = useMutation(CREATE_ENTRY, {
-        refetchQueries: [ { query: ALL_ENTRIES } ]
-    })
-
     // Default states for all the new object's properties
-    const ID = store.data.length;
+    // const [ ID, setID ] = useState(store.data.length)
+    // let ID2 = 'null';
     const [date, setDate] = useState(moment());
     const [time, setTime] = useState(moment());
     const [location, setLocation] = useState('');
@@ -45,7 +41,21 @@ export default function CreateEntryScreen({route}) {
     const [isEquipmentModalVisible, setEquipmentModalVisibility] = useState(false);
     const [isFishModalVisible, setFishModalVisibility] = useState(false);
 
-    const createEntryHandler = () => {
+    // After new entry is saved to DB, update HomeScreen entrylist
+    const [ createEntry, result ] = useMutation(CREATE_ENTRY, {
+        refetchQueries: [ { query: ALL_ENTRIES } ],
+    })
+
+    // const result1 = useQuery(ENTRY_ID);
+
+    useEffect(() => {    
+        if ( result.data ) {      
+            // console.log(result.data.createEntry.id)
+            createEntryHandler(result.data.createEntry.id)
+          }  }, [result.data])
+
+    const createEntryHandler = (ID) => {
+        console.log(ID)
 		const entry = {
             ID: ID,
             date: date.format(), 
@@ -91,8 +101,8 @@ export default function CreateEntryScreen({route}) {
 
 
     //Saves entry to DB and runs createEntryHandler
-    const saveEntryHandler = () => {
-        createEntry({ variables: { 
+    const saveEntryHandler = async () => {
+        await createEntry({ variables: { 
             date, 
             time,
             location, 
@@ -100,7 +110,7 @@ export default function CreateEntryScreen({route}) {
             weather, 
             } 
         });
-        createEntryHandler();
+        // createEntryHandler();
     };
 
     return (
