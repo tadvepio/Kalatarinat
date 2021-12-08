@@ -1,10 +1,10 @@
 import React from 'react';
-import {StyleSheet, View, Text, Image} from 'react-native';
+import {StyleSheet, View, Text, Image, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import Box from '../components/Box';
+import TextInputField from '../components/TextInputField';
 import ButtonWithIcon from '../components/ButtonWithIcon';
-import { TextInput } from 'react-native-gesture-handler';
 
 export default function LoginScreen() {
     
@@ -12,25 +12,36 @@ export default function LoginScreen() {
 
     return (
         <View style={styles.container}>
+            <ScrollView>
 
-            <Image
-            style={styles.logoStyle} 
-            source={require('../assets/logo.png')}
-            />
-            <Text style={styles.text}>Kirjaudu sisään</Text>
-            <Box style={styles.boxStyle}>
-                <TextInput
-                placeholder='Sähköposti'
-                />
-                <TextInput
-                placeholder='Salasana'
-                />
+                <Image style={styles.logo} source={require('../assets/logo.png')} />
 
-            </Box>
-            <ButtonWithIcon title={'Kirjaudu sisään'} />
+                <Text style={styles.text}>Kirjaudu sisään</Text>
+                <Box>
+                    <TextInputField 
+                        icon={'at'} 
+                        textInputProps={{
+                            placeholder: 'Sähköposti',
+                            defaultValue: 'user@kalatarinat.com'
+                        }}        
+                    />
 
-            <ButtonWithIcon title={'Luo tunnukset'} />
+                    <TextInputField 
+                        icon={'key'} 
+                        textInputProps={{
+                            placeholder: 'Salasana',
+                            secureTextEntry: true,
+                            defaultValue: 'salasana'
+                        }}        
+                    />
+                </Box>
 
+                <ButtonWithIcon title={'Kirjaudu sisään'} onPress={() => navigation.navigate('HomeScreen')} />
+
+                <ButtonWithIcon title={'Luo tunnukset'} />
+            </ScrollView>
+
+            <View style={styles.navigationContainer}></View>
         </View>
     );
 }
@@ -39,27 +50,24 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#ffffff',
-        padding: 10,
-        margin: 15,
     },
-    logoStyle: {
+    logo: {
         width: 250,
-        height: 250,
+        marginTop: 20,
         alignSelf: 'center',
-    },
-    boxStyle: {
-        margin: 15,
-        padding: 15,
     },
     text: {
         marginTop: 40,
-        marginLeft: 20,
         color: '#34344A',
         fontSize: 18,
         fontWeight: 'bold',
-        margin: 15,
-        justifyContent: 'center',
-        alignSelf: 'center',
-        
+        alignSelf: 'center'
+    },
+    navigationContainer: {
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        height: 60, 
+        width: '100%',
+        backgroundColor: '#EC0868',
     },
 });
