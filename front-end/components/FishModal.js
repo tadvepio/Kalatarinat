@@ -39,7 +39,7 @@ export default function FishModal({isModalVisible, closeModal, fish, setFish}) {
                             <TextInputField 
                                 textInputProps={{
                                     keyboardType: 'numeric',
-                                    placeholder: 'paino kg',
+                                    placeholder: 'Paino kg',
                                     maxLength: 5,
                                     value: weight,
                                     onChangeText: setWeight,
