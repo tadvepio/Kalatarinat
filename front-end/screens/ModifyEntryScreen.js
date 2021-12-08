@@ -6,9 +6,9 @@ import {AntDesign} from '@expo/vector-icons';
 import {FontAwesome5} from '@expo/vector-icons';
 import {Picker} from '@react-native-picker/picker';
 
-import { DELETE_ENTRY, MODIFY_ENTRY } from '../graphql/mutations';
-import { ALL_ENTRIES } from '../graphql/queries'
-import { useMutation } from '@apollo/client'
+import {DELETE_ENTRY, MODIFY_ENTRY} from '../graphql/mutations';
+import {ALL_ENTRIES} from '../graphql/queries'
+import {useMutation} from '@apollo/client'
 
 import Box from '../components/Box';
 import ButtonWithIcon from '../components/ButtonWithIcon';
@@ -27,27 +27,25 @@ export default function ModifyEntryScreen({route}) {
     const [time, setTime] = useState(moment(object.time));
     const [location, setLocation] = useState(object.location);
     const [temperature, setTemperature] = useState(object.temperature);
+    const [iconName, setIconName] = useState(object.iconName);
     const [weather, setWeather] = useState(object.weather);
     const [equipment, setEquipment] = useState(object.equipment);
     const [fish, setFish] = useState(object.fish);
     const [otherInfo, setOtherInfo] = useState(object.otherInfo);
     const [image, setImage] = useState(object.image);
 
-    const [iconName, setIconName] = useState('cloud');
-
     const [isEquipmentModalVisible, setEquipmentModalVisibility] = useState(false);
     const [isFishModalVisible, setFishModalVisibility] = useState(false);
 
     // After entry is deleted from DB, update HomeScreen entrylist
-    const [ deleteEntry ] = useMutation(DELETE_ENTRY, {
-        refetchQueries: [ { query: ALL_ENTRIES } ],
-    })
+    const [deleteEntry] = useMutation(DELETE_ENTRY, {
+        refetchQueries: [{query: ALL_ENTRIES}],
+    });
 
-    // After entry modified, update HomeScreen entrylist
-    const [ modifyEntry ] = useMutation(MODIFY_ENTRY, {
-        refetchQueries: [ { query: ALL_ENTRIES } ],
-    })
-
+    // After entry is modified, update HomeScreen entrylist
+    const [modifyEntry] = useMutation(MODIFY_ENTRY, {
+        refetchQueries: [{query: ALL_ENTRIES}],
+    });
 
     const modifyEntryHandler = () => {
 		const entry = {
@@ -56,6 +54,7 @@ export default function ModifyEntryScreen({route}) {
             time: time.format(), 
             location: location, 
             temperature: temperature,
+            iconName: iconName,
             weather: weather,
             equipment: equipment,
             fish: fish,
@@ -72,14 +71,13 @@ export default function ModifyEntryScreen({route}) {
                 temperature: temperature,
                 weather: weather
             }
-        })
+        });
 		navigation.navigate('HomeScreen', {store, object});
 	};
 
     const deleteEntryHandler = () => {
 		store.deleteEntry(object);
-        console.log(ID)
-        deleteEntry({ variables: {id: ID} })
+        deleteEntry({variables: {id: ID}});
 		navigation.navigate('HomeScreen', {store, object});
 	};
 
@@ -93,19 +91,19 @@ export default function ModifyEntryScreen({route}) {
 
     // Changes the icon whenever the weather is changed
     useEffect(() => {
-        if (weather === 'sun') {
+        if (weather === 'Aurinkoista') {
             setIconName('sun')
         }
-        else if (weather === 'cloud') {
+        else if (weather === 'Pilvistä') {
             setIconName('cloud')
         }
-        else if (weather === 'rain') {
+        else if (weather === 'Vesisadetta') {
             setIconName('cloud-rain')
         }
-        else if (weather === 'snow') {
+        else if (weather === 'Lumisadetta') {
             setIconName('snowflake')
         }
-        else if (weather === 'wind') {
+        else if (weather === 'Tuulista') {
             setIconName('wind')
         }
     }, [weather]);
@@ -132,7 +130,7 @@ export default function ModifyEntryScreen({route}) {
                         icon={'temperature-high'} 
                         textInputProps={{
                             placeholder: 'Lämpötila',
-                            maxLength: 2,
+                            maxLength: 3,
                             keyboardType: 'numeric',
                             value: temperature,
                             onChangeText: setTemperature,
@@ -148,12 +146,12 @@ export default function ModifyEntryScreen({route}) {
                             dropdownIconColor={'#EC0868'}
                             style={{width: '90%'}}
                         >
-                            <Picker.Item label='Sää' value='placeholder' enabled={false} style={{color: 'silver'}} />
-                            <Picker.Item label='Aurinkoista' value='sun' style={{color: '#34344A', fontSize: 14}} />
-                            <Picker.Item label='Pilvistä' value='cloud' style={{color: '#34344A', fontSize: 14}} />
-                            <Picker.Item label='Vesisadetta' value='rain' style={{color: '#34344A', fontSize: 14}} />
-                            <Picker.Item label='Lumisadetta' value='snow' style={{color: '#34344A', fontSize: 14}} />
-                            <Picker.Item label='Tuulista' value='wind' style={{color: '#34344A', fontSize: 14}} />
+                            <Picker.Item label='Sää' value='placeholder' enabled={false} style={{color: 'silver', fontSize: 14}} />
+                            <Picker.Item label='Aurinkoista' value='Aurinkoista' style={{color: '#34344A', fontSize: 14}} />
+                            <Picker.Item label='Pilvistä' value='Pilvistä' style={{color: '#34344A', fontSize: 14}} />
+                            <Picker.Item label='Vesisadetta' value='Vesisadetta' style={{color: '#34344A', fontSize: 14}} />
+                            <Picker.Item label='Lumisadetta' value='Lumisadetta' style={{color: '#34344A', fontSize: 14}} />
+                            <Picker.Item label='Tuulista' value='Tuulista' style={{color: '#34344A', fontSize: 14}} />
                         </Picker>
                     </View>
                 </Box>
@@ -223,11 +221,11 @@ export default function ModifyEntryScreen({route}) {
                     <FontAwesome5 name={'home'} size={25} color={'#ffffff'} />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.navigationButton}>
+                <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('AllEntriesScreen')}>
                     <FontAwesome5 name={'fish'} size={25} color={'#ffffff'} />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.navigationButton}>
+                <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('ProfileScreen')}>
                     <FontAwesome5 name={'user'} size={25} color={'#ffffff'} />
                 </TouchableOpacity>
             </View>
@@ -300,7 +298,8 @@ const styles = StyleSheet.create({
     navigationContainer: {
         flexDirection: 'row', 
         justifyContent: 'space-between', 
-        height: 60, width: '100%',
+        height: 60, 
+        width: '100%',
     },
     navigationButton: {
         backgroundColor: '#EC0868', 

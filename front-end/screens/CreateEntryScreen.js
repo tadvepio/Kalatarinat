@@ -7,9 +7,9 @@ import {FontAwesome5} from '@expo/vector-icons';
 import {Picker} from '@react-native-picker/picker';
 
 // Query and Mutation
-import { CREATE_ENTRY } from '../graphql/mutations';
-import { ALL_ENTRIES } from '../graphql/queries'
-import { useMutation } from '@apollo/client'
+import {CREATE_ENTRY} from '../graphql/mutations';
+import {ALL_ENTRIES} from '../graphql/queries'
+import {useMutation} from '@apollo/client'
 
 import Box from '../components/Box';
 import ButtonWithIcon from '../components/ButtonWithIcon';
@@ -24,44 +24,39 @@ export default function CreateEntryScreen({route}) {
     const {store} = route.params;
 
     // Default states for all the new object's properties
-    // const [ ID, setID ] = useState(store.data.length)
-    // let ID2 = 'null';
     const [date, setDate] = useState(moment());
     const [time, setTime] = useState(moment());
     const [location, setLocation] = useState('');
     const [temperature, setTemperature] = useState('');
+    const [iconName, setIconName] = useState('cloud');
     const [weather, setWeather] = useState('');
     const [equipment, setEquipment] = useState([]);
     const [fish, setFish] = useState([]);
     const [otherInfo, setOtherInfo] = useState('');
     const [image, setImage] = useState(null);
 
-    const [iconName, setIconName] = useState('cloud');
-
     const [isEquipmentModalVisible, setEquipmentModalVisibility] = useState(false);
     const [isFishModalVisible, setFishModalVisibility] = useState(false);
 
     // After new entry is saved to DB, update HomeScreen entrylist
-    const [ createEntry, result ] = useMutation(CREATE_ENTRY, {
-        refetchQueries: [ { query: ALL_ENTRIES } ],
-    })
-
-    // const result1 = useQuery(ENTRY_ID);
+    const [createEntry, result] = useMutation(CREATE_ENTRY, {
+        refetchQueries: [{query: ALL_ENTRIES}],
+    });
 
     useEffect(() => {    
-        if ( result.data ) {      
-            // console.log(result.data.createEntry.id)
-            createEntryHandler(result.data.createEntry.id)
-          }  }, [result.data])
+        if (result.data) {      
+            createEntryHandler(result.data.createEntry.id);
+        }
+    }, [result.data])
 
     const createEntryHandler = (ID) => {
-        console.log(ID)
 		const entry = {
             ID: ID,
             date: date.format(), 
             time: time.format(), 
             location: location, 
             temperature: temperature,
+            iconName: iconName,
             weather: weather,
             equipment: equipment,
             fish: fish,
@@ -82,35 +77,34 @@ export default function CreateEntryScreen({route}) {
 
     // Changes the icon whenever the weather is changed
     useEffect(() => {
-        if (weather === 'sun') {
+        if (weather === 'Aurinkoista') {
             setIconName('sun')
         }
-        else if (weather === 'cloud') {
+        else if (weather === 'Pilvistä') {
             setIconName('cloud')
         }
-        else if (weather === 'rain') {
+        else if (weather === 'Vesisadetta') {
             setIconName('cloud-rain')
         }
-        else if (weather === 'snow') {
+        else if (weather === 'Lumisadetta') {
             setIconName('snowflake')
         }
-        else if (weather === 'wind') {
+        else if (weather === 'Tuulista') {
             setIconName('wind')
         }
     }, [weather]);
 
-
-    //Saves entry to DB and runs createEntryHandler
+    // Saves entry to DB and runs createEntryHandler
     const saveEntryHandler = async () => {
-        await createEntry({ variables: { 
-            date, 
-            time,
-            location, 
-            temperature, 
-            weather, 
-            } 
+        await createEntry({
+            variables: { 
+                date, 
+                time,
+                location, 
+                temperature, 
+                weather, 
+            }
         });
-        // createEntryHandler();
     };
 
     return (
@@ -135,7 +129,7 @@ export default function CreateEntryScreen({route}) {
                         icon={'temperature-high'} 
                         textInputProps={{
                             placeholder: 'Lämpötila',
-                            maxLength: 2,
+                            maxLength: 3,
                             keyboardType: 'numeric',
                             value: temperature,
                             onChangeText: setTemperature,
@@ -151,22 +145,15 @@ export default function CreateEntryScreen({route}) {
                             dropdownIconColor={'#EC0868'}
                             style={{width: '90%'}}
                         >
-                            <Picker.Item label='Sää' value='placeholder' enabled={false} style={{color: 'silver'}} />
-                            <Picker.Item label='Aurinkoista' value='sun' style={{color: '#34344A', fontSize: 14}} />
-                            <Picker.Item label='Pilvistä' value='cloud' style={{color: '#34344A', fontSize: 14}} />
-                            <Picker.Item label='Vesisadetta' value='rain' style={{color: '#34344A', fontSize: 14}} />
-                            <Picker.Item label='Lumisadetta' value='snow' style={{color: '#34344A', fontSize: 14}} />
-                            <Picker.Item label='Tuulista' value='wind' style={{color: '#34344A', fontSize: 14}} />
+                            <Picker.Item label='Sää' value='placeholder' enabled={false} style={{color: 'silver', fontSize: 14}} />
+                            <Picker.Item label='Aurinkoista' value='Aurinkoista' style={{color: '#34344A', fontSize: 14}} />
+                            <Picker.Item label='Pilvistä' value='Pilvistä' style={{color: '#34344A', fontSize: 14}} />
+                            <Picker.Item label='Vesisadetta' value='Vesisadetta' style={{color: '#34344A', fontSize: 14}} />
+                            <Picker.Item label='Lumisadetta' value='Lumisadetta' style={{color: '#34344A', fontSize: 14}} />
+                            <Picker.Item label='Tuulista' value='Tuulista' style={{color: '#34344A', fontSize: 14}} />
                         </Picker>
                     </View>
 
-                    <TextInputField 
-                        icon={'cloud'} 
-                        textInputProps={{
-                            placeholder: 'Sää',
-                            onChangeText: setWeather,
-                        }}        
-                    />
                 </Box>
 
                 <Text style={styles.text}>Välineet</Text>
@@ -232,11 +219,11 @@ export default function CreateEntryScreen({route}) {
                     <FontAwesome5 name={'home'} size={25} color={'#ffffff'} />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.navigationButton}>
+                <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('AllEntriesScreen')}>
                     <FontAwesome5 name={'fish'} size={25} color={'#ffffff'} />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.navigationButton}>
+                <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('ProfileScreen')}>
                     <FontAwesome5 name={'user'} size={25} color={'#ffffff'} />
                 </TouchableOpacity>
             </View>
@@ -309,7 +296,8 @@ const styles = StyleSheet.create({
     navigationContainer: {
         flexDirection: 'row', 
         justifyContent: 'space-between', 
-        height: 60, width: '100%',
+        height: 60, 
+        width: '100%',
     },
     navigationButton: {
         backgroundColor: '#EC0868', 
