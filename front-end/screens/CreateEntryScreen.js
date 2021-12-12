@@ -203,8 +203,6 @@ export default function CreateEntryScreen({route}) {
                     />
                 </Box>
 
-                <ButtonWithIcon title={'Lisää kuva'} icon={'camerao'} />
-
                 <ButtonWithIcon title={'Tallenna'} icon={'check'} onPress={() => saveEntryHandler()} />
 
                 <ButtonWithIcon title={'Peruuta'} onPress={() => navigation.goBack()} />

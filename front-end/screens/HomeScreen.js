@@ -71,7 +71,7 @@ export default function HomeScreen() {
                     </View>
                 </Box>
 
-                <ButtonWithIcon title={'Lisää uusi merkintä'} icon={'plus'} onPress={() => navigation.navigate('CreateEntryScreen', {store: FishStore, setEntries: setEntries})} />
+                <ButtonWithIcon title={'Lisää uusi merkintä'} icon={'plus'} onPress={() => navigation.navigate('CreateEntryScreen', {store: FishStore, setEntries: entries})} />
 
                 <Text style={styles.text}>Viimeisimmät merkinnät</Text>
                

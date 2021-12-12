@@ -72,13 +72,13 @@ export default function ModifyEntryScreen({route}) {
                 weather: weather
             }
         });
-		navigation.navigate('HomeScreen', {store, object});
+		navigation.goBack();
 	};
 
     const deleteEntryHandler = () => {
 		store.deleteEntry(object);
         deleteEntry({variables: {id: ID}});
-		navigation.navigate('HomeScreen', {store, object});
+		navigation.goBack();
 	};
 
     const deleteEquipment = (e) => {
@@ -202,8 +202,6 @@ export default function ModifyEntryScreen({route}) {
                         style={{height: 100, fontSize: 14, color: '#34344A', textAlignVertical: 'top'}}
                     />
                 </Box>
-
-                <ButtonWithIcon title={'Lisää kuva'} icon={'camerao'} />
 
                 <ButtonWithIcon title={'Tallenna'} icon={'check'} onPress={() => modifyEntryHandler()} />
 
